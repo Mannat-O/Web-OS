@@ -45,4 +45,10 @@
       {program.title}
     </button>
   {/each}
+  <button
+    onclick={() => location.reload()}
+    class="flex items-center justify-start gap-4 rounded-lg py-2 px-4 text-xl hover:bg-blue-200 dark:hover:bg-blue-900">
+    <img src={rebootIcon} width="40" height="40" class="h-10 w-10" alt="" />
+    Reboot
+  </button>
 </section>
