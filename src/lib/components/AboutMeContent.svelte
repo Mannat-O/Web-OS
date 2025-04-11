@@ -56,7 +56,7 @@
       target="_blank"
       rel="noopener noreferrer"
       class="rounded-3xl hover:shadow-xl bg-white border-4 border-[#0085ff] hover:bg-[#0085ff] hover:-translate-y-1 translate-y-0 duration-500 hover:text-white transition-all group text-[#0085ff] shadow-lg aspect-square flex flex-col text-lg justify-center items-center"
-      href="https://bsky.app/profile/matvey.dev">
+      href="">
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
         <svg fill="none" viewBox="0 0 64 57" width="80" height="80"
@@ -66,7 +66,7 @@
           ></path
           ></svg>
       </div>
-      @matvey.dev
+      @Copy-Email
     </a>
     <a
       target="_blank"
