@@ -3,6 +3,7 @@
   import WelcomeWindow from "./lib/components/WelcomeWindow.svelte";
   import AboutMeWindow from "./lib/components/AboutMeWindow.svelte";
   import BootOverlay from "./lib/components/BootOverlay.svelte";
+  import CalculatorWindow from "./lib/components/CalculatorWindow.svelte";
   import fileManagerIcon from "./assets/icons/file-manager.svg";
   import minesweeperIcon from "./assets/icons/minesweeper.svg";
   import calculatorIcon from "./assets/icons/calculator.svg";
@@ -26,7 +27,7 @@
   type WindowData = {
     isOpen: boolean;
     id: string;
-    type: "welcome" | "aboutme" | "settings";
+    type: "welcome" | "aboutme" | "settings" | "calculator";
     detail?: string[] | null;
     createdAt: number;
   };
@@ -170,6 +171,7 @@
         welcome: WelcomeWindow,
         aboutme: AboutMeWindow,
         settings: SettingsWindow,
+        calculator: CalculatorWindow,
       }[window.type]}
       <Component
         bind:isOpen={window.isOpen}
