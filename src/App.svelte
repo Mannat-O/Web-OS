@@ -4,10 +4,19 @@
   import AboutMeWindow from "./lib/components/AboutMeWindow.svelte";
   import BootOverlay from "./lib/components/BootOverlay.svelte";
   import CalculatorWindow from "./lib/components/CalculatorWindow.svelte";
+  import MinesweeperWindow from "./lib/components/MinesweeperWindow.svelte";
   import fileManagerIcon from "./assets/icons/file-manager.svg";
   import minesweeperIcon from "./assets/icons/minesweeper.svg";
   import calculatorIcon from "./assets/icons/calculator.svg";
-  import { mdiMenu, mdiWifi, mdiVolumeHigh } from "@mdi/js";
+  import NotepadWindow from "./lib/components/NotepadWindow.svelte";
+
+  import {
+    mdiMenu,
+    mdiWifi,
+    mdiVolumeHigh,
+    mdiVolumeOff,
+    mdiThemeLightDark,
+  } from "@mdi/js";
   import StartMenu from "./lib/components/StartMenu.svelte";
   import Calendar from "./lib/components/Calendar.svelte";
   import { onDestroy, onMount, setContext } from "svelte";
@@ -27,7 +36,13 @@
   type WindowData = {
     isOpen: boolean;
     id: string;
-    type: "welcome" | "aboutme" | "settings" | "calculator";
+    type:
+      | "welcome"
+      | "aboutme"
+      | "settings"
+      | "minesweeper"
+      | "calculator"
+      | "notepad";
     detail?: string[] | null;
     createdAt: number;
   };
@@ -40,6 +55,7 @@
   );
   let isCalendarOpen = $state(false);
   let windows = $state<WindowData[]>([]);
+  let volumeOn = $state(true);
 
   const handleClick = (e: MouseEvent & { target: HTMLElement }) => {
     if (!e.target.closest(".calendar")) isCalendarOpen = false;
@@ -151,8 +167,18 @@
       {/each}
       <div class="flex-1"></div>
       <button
-        class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900">
-        <Icon icon={mdiVolumeHigh} size={0} />
+        class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900"
+        onclick={() => {
+          $settings.theme = $settings.theme === "light" ? "dark" : "light";
+        }}>
+        <Icon icon={mdiThemeLightDark} size={0} />
+      </button>
+      <button
+        class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900"
+        onclick={() => {
+          volumeOn = !volumeOn;
+        }}>
+        <Icon icon={volumeOn ? mdiVolumeHigh : mdiVolumeOff} size={0} />
       </button>
       <button
         class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900">
@@ -172,6 +198,8 @@
         aboutme: AboutMeWindow,
         settings: SettingsWindow,
         calculator: CalculatorWindow,
+        minesweeper: MinesweeperWindow,
+        notepad: NotepadWindow,
       }[window.type]}
       <Component
         bind:isOpen={window.isOpen}
