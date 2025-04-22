@@ -9,6 +9,7 @@
   import minesweeperIcon from "./assets/icons/minesweeper.svg";
   import calculatorIcon from "./assets/icons/calculator.svg";
   import NotepadWindow from "./lib/components/NotepadWindow.svelte";
+  import FileManagerWindow from "./lib/components/FileManagerWindow.svelte";
 
   import {
     mdiMenu,
@@ -42,7 +43,8 @@
       | "settings"
       | "minesweeper"
       | "calculator"
-      | "notepad";
+      | "notepad"
+      | "filemanager";
     detail?: string[] | null;
     createdAt: number;
   };
@@ -200,6 +202,7 @@
         calculator: CalculatorWindow,
         minesweeper: MinesweeperWindow,
         notepad: NotepadWindow,
+        filemanager: FileManagerWindow,
       }[window.type]}
       <Component
         bind:isOpen={window.isOpen}
