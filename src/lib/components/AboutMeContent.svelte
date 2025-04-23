@@ -1,9 +1,14 @@
 <script lang="ts">
-  import { mdiGithub, mdiFileDocument } from "@mdi/js";
+  import { mdiGithub, mdiFileDocument, mdiEmail } from "@mdi/js";
   import avatar from "../../assets/avatar.webp";
   import blogIcon from "../../assets/cat.webp";
   import Icon from "./Icon.svelte";
   import { mdiLinkedin } from "@mdi/js";
+  import FileManagerWindow from "./FileManagerWindow.svelte";
+  import { getContext } from "svelte";
+
+  const openWindow =
+    getContext<(type: string, detail?: string[] | null) => void>("openWindow");
 </script>
 
 <div class="mx-auto flex max-w-lg flex-col gap-4">
@@ -43,12 +48,15 @@
       target="_blank"
       rel="noopener noreferrer"
       class="rounded-3xl hover:shadow-xl bg-black text-white border-4 border-neutral-900 hover:bg-white hover:text-neutral-900 duration-500 group transition-all hover:-translate-y-1 translate-y-0 shadow-lg aspect-square flex flex-col text-lg justify-center items-center gap-2"
-      href="../main.ts">
+      href=""
+      on:click|preventDefault={() => {
+        openWindow("filemanager");
+      }}>
       <img
-        width="112"
-        height="112"
+        width="auto"
+        height="100"
         src={blogIcon}
-        class="w-30 h-30 rounded-xl group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500"
+        class="w-25 rounded-xl group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500"
         alt="Pepe petting a cat" />
       My Cats
     </a>
@@ -59,12 +67,7 @@
       href="">
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
-        <svg fill="none" viewBox="0 0 64 57" width="80" height="80"
-          ><path
-            fill="currentColor"
-            d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"
-          ></path
-          ></svg>
+        <Icon icon={mdiEmail} size={4} />
       </div>
       @Copy-Email
     </a>

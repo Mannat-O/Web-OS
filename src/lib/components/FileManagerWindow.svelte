@@ -11,21 +11,37 @@
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
+
   const handleArrowUp = () => {
     dir.pop();
     selectedItem = null;
   };
+
   const openFile = (file: [string, string | object]) => {
-    if (typeof file[1] === "string") openWindow("notepad", [...dir, file[0]]);
-    else dir = [...dir, file[0]];
+    if (typeof file[1] === "string") {
+      if (file[1].startsWith("/")) {
+        // Imported image — open in new tab
+        window.open(file[1], "_blank");
+        openWindow("notepad", [...dir, file[0]]);
+      } else {
+        // Text file — open in notepad
+        openWindow("notepad", [...dir, file[0]]);
+      }
+    } else {
+      // It's a folder — navigate into it
+      dir = [...dir, file[0]];
+    }
     selectedItem = null;
   };
+
   const handleFileContextMenu = (e: MouseEvent & { target: HTMLElement }) => {
     e.preventDefault();
     if (!e.target.closest(".file")) openContextMenu(e, null);
   };
+
   const openContextMenu = (e: MouseEvent, file: string | null) =>
     (contextMenu = { x: e.layerX, y: e.layerY, file });
+
   const createNewFile = () => {
     contextMenu = null;
     const name = prompt("Name of the file:");
@@ -35,6 +51,7 @@
     createRecord([...dir, `${name}.txt`], "");
     updateFiles();
   };
+
   const createNewFolder = () => {
     contextMenu = null;
     const name = prompt("Name of the folder:");
@@ -44,12 +61,14 @@
     createRecord([...dir, name], {});
     updateFiles();
   };
+
   const deleteFile = () => {
     if (!contextMenu?.file) return;
     deleteRecord([...dir, contextMenu.file]);
     updateFiles();
     contextMenu = null;
   };
+
   const handleWindowClick = (e: MouseEvent & { target: HTMLElement }) =>
     !e.target.closest(".contextmenu") && (contextMenu = null);
 
@@ -118,19 +137,22 @@
       {/if}
     </div>
   {/if}
+
   <div class="mb-8 flex gap-4">
     <button
       onclick={handleArrowUp}
       class="rounded-lg bg-zinc-200 p-2 dark:bg-zinc-800">
-      <Icon icon={mdiArrowUpBold} size={0} /></button>
+      <Icon icon={mdiArrowUpBold} size={0} />
+    </button>
     <p
       class="flex w-full gap-2 rounded-lg bg-zinc-200 py-2 px-4 dark:bg-zinc-800">
       /{dir.join("/")}
     </p>
   </div>
+
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
-    class=" h-[calc(100%_-_5rem)]"
+    class="h-[calc(100%_-_5rem)]"
     oncontextmenu={handleFileContextMenu as unknown as MouseEventHandler<HTMLDivElement>}>
     <div
       class="grid w-full grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-4">
@@ -144,11 +166,36 @@
           }}
           class:bg-blue-200={selectedItem === file[0]}
           class:dark:bg-blue-900={selectedItem === file[0]}
-          class="file flex flex-col items-center justify-center gap-1 rounded-lg">
-          <img
-            src={typeof file[1] === "string" ? fileIcon : folderIcon}
-            alt="" />
-          {file[0]}
+          class="file flex flex-col items-center justify-center gap-1 rounded-lg p-2">
+          {#if typeof file[1] === "string" && file[1].startsWith("/")}
+            <!-- Preview for imported images -->
+            <BaseWindow
+              title="Image Preview"
+              {icon}
+              height={500}
+              width={600}
+              bind:isOpen
+              {onclose}
+              {onpointerdown}>
+              <div>
+                <img
+                  src={file[1]}
+                  alt={file[0]}
+                  class="rounded-md object-cover"
+                  width="50"
+                  height="50" />
+              </div>
+            </BaseWindow>
+          {:else}
+            <!-- Default icon for .txt or folder -->
+            <img
+              src={typeof file[1] === "string" ? fileIcon : folderIcon}
+              alt=""
+              width="50"
+              height="50" />
+          {/if}
+
+          <span class="truncate text-center w-full">{file[0]}</span>
         </button>
       {/each}
     </div>
