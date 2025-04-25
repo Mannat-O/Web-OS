@@ -34,6 +34,7 @@
   import wallpaper1 from "./assets/wallpapers/1.webp";
   import wallpaper2 from "./assets/wallpapers/2.webp";
   import wallpaper3 from "./assets/wallpapers/3.webp";
+  import ImageViewerWindow from "./lib/components/ImageViewerWindow.svelte";
 
   type WindowData = {
     isOpen: boolean;
@@ -46,7 +47,8 @@
       | "calculator"
       | "notepad"
       | "filemanager"
-      | "terminal";
+      | "terminal"
+      | "imageviewer";
     detail?: string[] | null;
     createdAt: number;
   };
@@ -162,6 +164,7 @@
               filemanager: fileManagerIcon,
               notepad: nodepadIcon,
               calculator: calculatorIcon,
+              imageviewer: nodepadIcon,
             }[window.type]}
             width="40"
             height="40"
@@ -206,6 +209,7 @@
         notepad: NotepadWindow,
         filemanager: FileManagerWindow,
         terminal: TerminalWindow,
+        imageviewer: ImageViewerWindow,
       }[window.type]}
       <Component
         bind:isOpen={window.isOpen}

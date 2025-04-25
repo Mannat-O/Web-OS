@@ -21,8 +21,7 @@
     if (typeof file[1] === "string") {
       if (file[1].startsWith("/")) {
         // Imported image — open in new tab
-        window.open(file[1], "_blank");
-        openWindow("notepad", [...dir, file[0]]);
+        openWindow("imageviewer", [file[1]]);
       } else {
         // Text file — open in notepad
         openWindow("notepad", [...dir, file[0]]);
@@ -80,7 +79,7 @@
     file: string | null;
   } | null>(null);
 
-  let files = $state<[string, string | Folder][]>([]);
+  let files = $state<[string, string | Folder | Blob][]>([]);
 
   const updateFiles = () => {
     files = Object.entries(getFromPath(dir))
@@ -169,23 +168,13 @@
           class="file flex flex-col items-center justify-center gap-1 rounded-lg p-2">
           {#if typeof file[1] === "string" && file[1].startsWith("/")}
             <!-- Preview for imported images -->
-            <BaseWindow
-              title="Image Preview"
-              {icon}
-              height={500}
-              width={600}
-              bind:isOpen
-              {onclose}
-              {onpointerdown}>
-              <div>
-                <img
-                  src={file[1]}
-                  alt={file[0]}
-                  class="rounded-md object-cover"
-                  width="50"
-                  height="50" />
-              </div>
-            </BaseWindow>
+
+            <img
+              src={file[1]}
+              alt={file[0]}
+              class="rounded-md object-cover"
+              width="50"
+              height="50" />
           {:else}
             <!-- Default icon for .txt or folder -->
             <img
