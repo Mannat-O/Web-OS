@@ -8,6 +8,7 @@
   import fileManagerIcon from "./assets/icons/file-manager.svg";
   import minesweeperIcon from "./assets/icons/minesweeper.svg";
   import calculatorIcon from "./assets/icons/calculator.svg";
+  import imageViewerIcon from "./assets/icons/photo-viewer.svg";
   import NotepadWindow from "./lib/components/NotepadWindow.svelte";
   import FileManagerWindow from "./lib/components/FileManagerWindow.svelte";
   import TerminalWindow from "./lib/components/TerminalWindow.svelte";
@@ -164,7 +165,7 @@
               filemanager: fileManagerIcon,
               notepad: nodepadIcon,
               calculator: calculatorIcon,
-              imageviewer: nodepadIcon,
+              imageviewer: imageViewerIcon,
             }[window.type]}
             width="40"
             height="40"

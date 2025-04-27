@@ -9,6 +9,41 @@
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
+
+  let copy_message = $state(false);
+
+  const openFileManager = (event: Event) => {
+    event.preventDefault();
+    openWindow("filemanager");
+  };
+
+  const copiedPopup = (event: Event) => {
+    event.preventDefault();
+    const email = "oberoi.g55@gmail.com";
+
+    navigator.clipboard
+      .writeText(email)
+      .then(() => {
+        const copiedAlert = document.createElement("div");
+        copiedAlert.textContent = "Email copied to clipboard!";
+        copiedAlert.style.cssText = `
+          position: fixed;
+          top: 15%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 1rem 2rem;
+          background-color: #333;
+          color: white;
+          border-radius: 8px;
+          z-index: 9999;
+        `;
+        document.body.appendChild(copiedAlert);
+        setTimeout(() => {
+          copiedAlert.remove();
+        }, 1500);
+      })
+      .catch((err) => alert("Failed to copy email"));
+  };
 </script>
 
 <div class="mx-auto flex max-w-lg flex-col gap-4">
@@ -49,9 +84,7 @@
       rel="noopener noreferrer"
       class="rounded-3xl hover:shadow-xl bg-black text-white border-4 border-neutral-900 hover:bg-white hover:text-neutral-900 duration-500 group transition-all hover:-translate-y-1 translate-y-0 shadow-lg aspect-square flex flex-col text-lg justify-center items-center gap-2"
       href=""
-      on:click|preventDefault={() => {
-        openWindow("filemanager");
-      }}>
+      onclick={openFileManager}>
       <img
         width="auto"
         height="100"
@@ -64,12 +97,13 @@
       target="_blank"
       rel="noopener noreferrer"
       class="rounded-3xl hover:shadow-xl bg-white border-4 border-[#0085ff] hover:bg-[#0085ff] hover:-translate-y-1 translate-y-0 duration-500 hover:text-white transition-all group text-[#0085ff] shadow-lg aspect-square flex flex-col text-lg justify-center items-center"
-      href="">
+      href=""
+      onclick={copiedPopup}>
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
         <Icon icon={mdiEmail} size={4} />
       </div>
-      @Copy-Email
+      Email
     </a>
     <a
       target="_blank"

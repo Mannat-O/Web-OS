@@ -1,6 +1,6 @@
-import cat1 from "../assets/cat.webp";
-import cat2 from "../assets/cat.webp";
-import cat12 from "../assets/cat.webp";
+import cat1 from "../assets/cat1.webp";
+import cat2 from "../assets/cat2.webp";
+import cat3 from "../assets/cat3.webp";
 
 export type FileContent = string | Blob; // Blob covers images or any binary
 
@@ -10,9 +10,9 @@ export type Folder = {
 
 const filesystem: Folder = {
   "test.txt": "This is a test file",
-  "oreo.jpg": cat1,
-  "cleo.jpg": cat2,
-  "oreo_&_cleo.jpg": cat12,
+  "cleo&oreo.jpg": cat1,
+  "oreo.jpg": cat2,
+  "oreo2.jpg": cat3,
 };
 export const getFromPath = (path: string[]): Folder | string => {
   let folder = filesystem;
