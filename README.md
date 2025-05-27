@@ -1,47 +1,87 @@
-# Svelte + TS + Vite
+# Advanced In-Browser Operating System Simulator
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+A highly interactive, browser-based operating system environment built with Svelte, TypeScript, and TailwindCSS. Features include a dynamic desktop, recursive virtual filesystem, Unix-like terminal emulator, and modular applications—all running client-side with persistent state.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## Features
 
-## Need an official Svelte framework?
+- **Interactive Desktop UI**  
+  Draggable, resizable windows with z-index stacking, window tiling, and multitasking support.
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+- **Virtual Filesystem**  
+  Recursive, in-memory file and folder management with hierarchical navigation, CRUD operations, and persistent storage via browser Local Storage.
 
-## Technical considerations
+- **Terminal Emulator**  
+  Advanced command-line interface supporting simulated Unix-like commands, command parsing, stateful execution, and full filesystem integration.
 
-**Why use this over SvelteKit?**
+- **Modular Applications**
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+  - **Minesweeper**: Classic game implementation with stateful logic.
+  - **Image Viewer**: Browse and view images stored in the virtual filesystem.
+  - **Notepad**: Persistent text editor with real-time saving and file management.
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+- **Persistent State**  
+  All file and application state is stored client-side, allowing full OS simulation with no backend required.
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+- **Modern Tech Stack**  
+  Built with Svelte 5, TypeScript, TailwindCSS, and Vite for fast, scalable development and optimized client performance.
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+---
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+## Getting Started
 
-**Why include `.vscode/extensions.json`?**
+### Prerequisites
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+- [Node.js](https://nodejs.org/)
+- [pnpm](https://pnpm.io/) (or `npm`/`yarn`)
 
-**Why enable `allowJs` in the TS template?**
+### Installation
 
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+pnpm install
+# or
+npm install
 ```
+
+### Development
+
+```bash
+pnpm dev
+# or
+npm run dev
+```
+
+### Build
+
+```bash
+pnpm build
+# or
+npm run build
+```
+
+---
+
+## Project Structure
+
+```
+src/
+│
+├── main.ts                # Svelte app entry point
+├── App.svelte             # Root component
+├── lib/
+│   ├── fs.ts              # In-memory filesystem logic
+│   ├── settings.ts        # System settings and state
+│   └── components/        # Desktop and application components
+└── app.css                # Global styles (Tailwind)
+```
+
+---
+
+## Technologies Used
+
+- [Svelte 5](https://svelte.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [@mdi/js](https://github.com/Templarian/MaterialDesign-JS) for iconography
