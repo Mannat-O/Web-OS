@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "@fontsource/ubuntu": "^5.1.1",
-    "@mdi/js": "^7.4.47"
+    "@mdi/js": "^7.4.47",
+    "@vercel/analytics": "^1.5.0"
   },
   "prettier": {
     "plugins": [
