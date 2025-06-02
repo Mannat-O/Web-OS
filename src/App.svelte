@@ -101,13 +101,13 @@
       () =>
         (windows = [
           {
-            type: "welcome",
+            type: "filemanager",
             id: crypto.randomUUID(),
             isOpen: true,
             createdAt: Date.now(),
           },
         ]),
-      2800,
+      2500,
     );
     interval = setInterval(
       () =>

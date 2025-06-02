@@ -5,12 +5,26 @@
   import icon from "../../assets/icons/file-manager.svg";
   import fileIcon from "../../assets/icons/file.svg";
   import folderIcon from "../../assets/icons/folder.svg";
+  import github_icon from "../../assets/icons/github_icon.svg";
+  import linkedin_icon from "../../assets/icons/linkedin_icon.svg";
+  import aboutme from "../../assets/icons/aboutme.png";
+  import minesweeper from "../../assets/icons/minesweeper.svg";
+  import calculator from "../../assets/icons/calculator.svg";
+  import notepad from "../../assets/icons/notepad.svg";
+  import terminal from "../../assets/icons/terminal.svg";
+  import settings from "../../assets/icons/settings.svg";
   import { createRecord, deleteRecord, getFromPath, type Folder } from "../fs";
   import BaseWindow from "./BaseWindow.svelte";
   import Icon from "./Icon.svelte";
+  import doc from "../../assets/icons/doc.svg";
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
+
+  const openFileManager = (event: Event, app_type: string) => {
+    event.preventDefault();
+    openWindow(app_type);
+  };
 
   const handleArrowUp = () => {
     dir.pop();
@@ -19,12 +33,18 @@
 
   const openFile = (file: [string, string | object]) => {
     if (typeof file[1] === "string") {
-      if (file[1].startsWith("/")) {
+      if (file[1].includes("webp") || file[1].includes("pdf")) {
         // Imported image — open in new tab
         openWindow("imageviewer", [file[1]]);
-      } else {
+      } else if (file[1].startsWith("http")) {
+        // External URL — open in new tab
+        window.open(file[1], "_blank");
         // Text file — open in notepad
+      } else if (file[0].endsWith(".txt")) {
         openWindow("notepad", [...dir, file[0]]);
+      } else {
+        // Other file types — open in notepad
+        openWindow(file[1]);
       }
     } else {
       // It's a folder — navigate into it
@@ -67,6 +87,31 @@
     updateFiles();
     contextMenu = null;
   };
+  const imageMap: Record<string, string> = {
+    terminal,
+    calculator,
+    notepad,
+    minesweeper,
+    settings,
+  };
+
+  const returnLogo = (file: any): string => {
+    if (typeof file === "string") {
+      if (file.startsWith("http")) {
+        return file.includes("github") ? github_icon : linkedin_icon;
+      } else if (file.endsWith("pdf")) {
+        return doc;
+      } else if (file == "aboutme") {
+        return aboutme; // Assuming 'aboutme' is a special case
+      } else if (file in imageMap) {
+        return imageMap[file]; // returns string
+      } else if (file.endsWith(".txt")) {
+        return fileIcon;
+      } else if (file.startsWith("/")) {
+        return file; // Assuming it's an image URL
+      } else return fileIcon;
+    } else return folderIcon;
+  };
 
   const handleWindowClick = (e: MouseEvent & { target: HTMLElement }) =>
     !e.target.closest(".contextmenu") && (contextMenu = null);
@@ -82,9 +127,7 @@
   let files = $state<[string, string | Folder | Blob][]>([]);
 
   const updateFiles = () => {
-    files = Object.entries(getFromPath(dir))
-      .sort((a, b) => (a[0] > b[0] ? 1 : -1))
-      .sort((a) => (typeof a[1] === "string" ? 1 : -1));
+    files = Object.entries(getFromPath(dir));
   };
 
   $effect(updateFiles);
@@ -98,6 +141,14 @@
     onclose: () => void;
     onpointerdown: () => void;
   } = $props();
+
+  const appNames = [
+    "terminal",
+    "calculator",
+    "notepad",
+    "minesweeper",
+    "settings",
+  ];
 </script>
 
 <svelte:window
@@ -155,7 +206,8 @@
     oncontextmenu={handleFileContextMenu as unknown as MouseEventHandler<HTMLDivElement>}>
     <div
       class="grid w-full grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-4">
-      {#each files as file}
+      <!-- Non-app files -->
+      {#each files.filter(([name]) => !appNames.includes(name.toLowerCase())) as file}
         <button
           onclick={() => ([selectedItem] = file)}
           ondblclick={() => openFile(file)}
@@ -166,24 +218,29 @@
           class:bg-blue-200={selectedItem === file[0]}
           class:dark:bg-blue-900={selectedItem === file[0]}
           class="file flex flex-col items-center justify-center gap-1 rounded-lg p-2">
-          {#if typeof file[1] === "string" && file[1].startsWith("/")}
-            <!-- Preview for imported images -->
+          <img src={returnLogo(file[1])} alt="" width="50" height="50" />
+          <span class="truncate text-center w-full">{file[0]}</span>
+        </button>
+      {/each}
 
-            <img
-              src={file[1]}
-              alt={file[0]}
-              class="rounded-md object-cover"
-              width="50"
-              height="50" />
-          {:else}
-            <!-- Default icon for .txt or folder -->
-            <img
-              src={typeof file[1] === "string" ? fileIcon : folderIcon}
-              alt=""
-              width="50"
-              height="50" />
-          {/if}
+      <!-- Divider if there are apps -->
+      {#if files.some(([name]) => appNames.includes(name.toLowerCase()))}
+        <div class="col-span-full h-px bg-gray-300 dark:bg-zinc-700 my-2"></div>
+      {/if}
 
+      <!-- App files -->
+      {#each files.filter( ([name]) => appNames.includes(name.toLowerCase()), ) as file}
+        <button
+          onclick={() => ([selectedItem] = file)}
+          ondblclick={() => openFile(file)}
+          oncontextmenu={(e) => {
+            e.preventDefault();
+            openContextMenu(e, file[0]);
+          }}
+          class:bg-blue-200={selectedItem === file[0]}
+          class:dark:bg-blue-900={selectedItem === file[0]}
+          class="file flex flex-col items-center justify-center gap-1 rounded-lg p-2">
+          <img src={returnLogo(file[1])} alt="" width="50" height="50" />
           <span class="truncate text-center w-full">{file[0]}</span>
         </button>
       {/each}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import icon from "../../assets/icons/welcome.svg";
   import BaseWindow from "./BaseWindow.svelte";
 
@@ -33,12 +33,7 @@
         </span>
         I'm Gurmannat
       </h1>
-      <p class="text-2xl">I'm a full-stack web developer.</p>
-      <button
-        onclick={() => openWindow("aboutme")}
-        class="rounded-md bg-blue-600 py-2 px-4 font-medium text-white hover:bg-blue-700 text-lg">
-        About me
-      </button>
+      <p class="text-2xl">I'm a Full-stack Developer</p>
     </div>
   </div>
 </BaseWindow>

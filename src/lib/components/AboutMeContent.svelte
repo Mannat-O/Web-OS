@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { mdiGithub, mdiFileDocument, mdiEmail } from "@mdi/js";
+  import { mdiGithub, mdiFileDocument, mdiEmail, mdiDirections } from "@mdi/js";
   import avatar from "../../assets/avatar.webp";
   import blogIcon from "../../assets/cat.webp";
   import Icon from "./Icon.svelte";
   import { mdiLinkedin } from "@mdi/js";
   import FileManagerWindow from "./FileManagerWindow.svelte";
   import { getContext } from "svelte";
+  import resume from "../../assets/Gurmannat_Fall2025.pdf";
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
@@ -14,7 +15,7 @@
 
   const openFileManager = (event: Event) => {
     event.preventDefault();
-    openWindow("filemanager");
+    openWindow("filemanager", ["./cat pics"]);
   };
 
   const copiedPopup = (event: Event) => {
@@ -90,7 +91,7 @@
         height="100"
         src={blogIcon}
         class="w-25 rounded-xl group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500"
-        alt="Pepe petting a cat" />
+        alt="cats" />
       My Cats
     </a>
     <a
@@ -109,7 +110,7 @@
       target="_blank"
       rel="noopener noreferrer"
       class="rounded-3xl hover:shadow-xl bg-indigo-800 border-4 border-indigo-800 hover:bg-white hover:text-indigo-800 duration-500 group transition-all hover:-translate-y-1 translate-y-0 text-white shadow-lg aspect-square flex flex-col text-lg justify-center items-center"
-      href="https://gurmannat-resume.tiiny.site/">
+      href={resume}>
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
         <Icon icon={mdiFileDocument} size={4} />

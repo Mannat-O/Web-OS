@@ -2,8 +2,13 @@
   import { mdiChevronLeft } from "@mdi/js";
   import { onMount, type Snippet } from "svelte";
   import { fade } from "svelte/transition";
+  import { getContext } from "svelte";
   import AboutMeContent from "./AboutMeContent.svelte";
+  import FileManager from "./FileManagerWindow.svelte";
   import Icon from "./Icon.svelte";
+
+  const openWindow =
+    getContext<(type: string, detail?: string[] | null) => void>("openWindow");
 
   let isBooted = $state(
     /bot|crawler|spider|crawling/.test(navigator.userAgent),
@@ -11,6 +16,7 @@
   let isMounted = $state(false);
   let innerWidth = $state(0);
   let isAboutMeOpen = $state(false);
+  let isFileManagerOpen = $state(false);
 
   const {
     children,
