@@ -34,9 +34,9 @@
   </BaseWindow>
 {:else}
   <BaseWindow
-    title="PDF Viewer"
+    title="Image Viewer"
     {icon}
-    height={800}
+    height={700}
     width={500}
     bind:isOpen
     {onclose}
