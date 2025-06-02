@@ -177,6 +177,7 @@
       <button
         class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900"
         onclick={() => {
+          $settings.wallpaper = $settings.theme === "light" ? 1 : 0;
           $settings.theme = $settings.theme === "light" ? "dark" : "light";
         }}>
         <Icon icon={mdiThemeLightDark} size={0} />
