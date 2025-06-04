@@ -2,7 +2,7 @@ import cat1 from "../assets/cat1.webp";
 import cat2 from "../assets/cat2.webp";
 import cat3 from "../assets/cat3.webp";
 import readmeText from "../assets/readme.txt?raw";
-import resume from "../assets/Gurmannat_Fall2025.pdf";
+import resume from "../assets/Gurmannat_Oberoi.pdf";
 export type FileContent = string | Blob; // URL covers href links
 
 export type Folder = {

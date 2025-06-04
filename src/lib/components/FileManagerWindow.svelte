@@ -6,6 +6,7 @@
   import fileIcon from "../../assets/icons/file.svg";
   import folderIcon from "../../assets/icons/folder.svg";
   import github_icon from "../../assets/icons/github_icon.svg";
+  import github_white_icon from "../../assets/icons/github-white-icon.svg";
   import linkedin_icon from "../../assets/icons/linkedin_icon.svg";
   import aboutme from "../../assets/icons/aboutme.png";
   import minesweeper from "../../assets/icons/minesweeper.svg";
@@ -17,6 +18,9 @@
   import BaseWindow from "./BaseWindow.svelte";
   import Icon from "./Icon.svelte";
   import doc from "../../assets/icons/doc.svg";
+  import { settings as theme_settings } from "../settings";
+  import { onMount } from "svelte";
+  import { normalizePath } from "../fs";
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
@@ -25,6 +29,10 @@
     event.preventDefault();
     openWindow(app_type);
   };
+
+  onMount(() => {
+    if (detail) dir = normalizePath(detail);
+  });
 
   const handleArrowUp = () => {
     dir.pop();
@@ -97,8 +105,12 @@
 
   const returnLogo = (file: any): string => {
     if (typeof file === "string") {
-      if (file.startsWith("http")) {
-        return file.includes("github") ? github_icon : linkedin_icon;
+      if (file.includes("github")) {
+        return $theme_settings.theme == "light"
+          ? github_icon
+          : github_white_icon;
+      } else if (file.includes("linkedin")) {
+        return linkedin_icon;
       } else if (file.endsWith("pdf")) {
         return doc;
       } else if (file == "aboutme") {
@@ -136,10 +148,12 @@
     isOpen = $bindable(),
     onclose,
     onpointerdown,
+    detail,
   }: {
     isOpen: boolean;
     onclose: () => void;
     onpointerdown: () => void;
+    detail: string[] | null | undefined;
   } = $props();
 
   const appNames = [

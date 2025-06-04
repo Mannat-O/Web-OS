@@ -5,8 +5,8 @@ let settingsValue: {
   theme: "light" | "dark";
   wallpaper: number;
 } = {
-  theme: "light",
-  wallpaper: 0,
+  theme: "dark",
+  wallpaper: 1,
 };
 
 if (settingsFromLocalStorage) {

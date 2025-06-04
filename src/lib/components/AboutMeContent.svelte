@@ -6,16 +6,16 @@
   import { mdiLinkedin } from "@mdi/js";
   import FileManagerWindow from "./FileManagerWindow.svelte";
   import { getContext } from "svelte";
-  import resume from "../../assets/Gurmannat_Fall2025.pdf";
+  import resume from "../../assets/Gurmannat_Oberoi.pdf";
 
   const openWindow =
     getContext<(type: string, detail?: string[] | null) => void>("openWindow");
 
   let copy_message = $state(false);
 
-  const openFileManager = (event: Event) => {
+  const openFile = (event: Event, app: string, file: string) => {
     event.preventDefault();
-    openWindow("filemanager", ["./cat pics"]);
+    openWindow(app, [file]);
   };
 
   const copiedPopup = (event: Event) => {
@@ -80,12 +80,9 @@
       </div>
       @G_Oberoi
     </a>
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
       class="rounded-3xl hover:shadow-xl bg-black text-white border-4 border-neutral-900 hover:bg-white hover:text-neutral-900 duration-500 group transition-all hover:-translate-y-1 translate-y-0 shadow-lg aspect-square flex flex-col text-lg justify-center items-center gap-2"
-      href=""
-      onclick={openFileManager}>
+      onclick={(event) => openFile(event, "filemanager", "cats")}>
       <img
         width="auto"
         height="100"
@@ -93,29 +90,27 @@
         class="w-25 rounded-xl group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500"
         alt="cats" />
       My Cats
-    </a>
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
+    </button>
+    <button
       class="rounded-3xl hover:shadow-xl bg-white border-4 border-[#0085ff] hover:bg-[#0085ff] hover:-translate-y-1 translate-y-0 duration-500 hover:text-white transition-all group text-[#0085ff] shadow-lg aspect-square flex flex-col text-lg justify-center items-center"
-      href=""
       onclick={copiedPopup}>
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
         <Icon icon={mdiEmail} size={4} />
       </div>
       Email
-    </a>
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
+    </button>
+    <button
       class="rounded-3xl hover:shadow-xl bg-indigo-800 border-4 border-indigo-800 hover:bg-white hover:text-indigo-800 duration-500 group transition-all hover:-translate-y-1 translate-y-0 text-white shadow-lg aspect-square flex flex-col text-lg justify-center items-center"
-      href={resume}>
+      onclick={(event) => {
+        openWindow("imageviewer", [resume]);
+        console.log("Opening resume: ", resume);
+      }}>
       <div
         class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-500">
         <Icon icon={mdiFileDocument} size={4} />
       </div>
       My Resume
-    </a>
+    </button>
   </div>
 </div>

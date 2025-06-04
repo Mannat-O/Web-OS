@@ -129,6 +129,7 @@
 <svelte:head>
   {#if wallpaper}
     <link rel="preload" as="image" href={wallpaper} />
+    <link rel="preload" as="image" href={wallpaper1} />
   {/if}
 </svelte:head>
 
