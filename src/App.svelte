@@ -36,6 +36,7 @@
   import wallpaper2 from "./assets/wallpapers/2.webp";
   import wallpaper3 from "./assets/wallpapers/3.webp";
   import ImageViewerWindow from "./lib/components/ImageViewerWindow.svelte";
+  import folderIcon from "./assets/icons/folder.svg";
 
   type WindowData = {
     isOpen: boolean;
@@ -63,6 +64,7 @@
   let isCalendarOpen = $state(false);
   let windows = $state<WindowData[]>([]);
   let volumeOn = $state(true);
+  let navOn = $state(false);
 
   const handleClick = (e: MouseEvent & { target: HTMLElement }) => {
     if (!e.target.closest(".calendar")) isCalendarOpen = false;
@@ -97,18 +99,6 @@
 
   let interval: ReturnType<typeof setInterval>;
   onMount(() => {
-    setTimeout(
-      () =>
-        (windows = [
-          {
-            type: "filemanager",
-            id: crypto.randomUUID(),
-            isOpen: true,
-            createdAt: Date.now(),
-          },
-        ]),
-      2500,
-    );
     interval = setInterval(
       () =>
         (time = new Date().toLocaleTimeString("en-GB", {
@@ -136,12 +126,13 @@
 <BootOverlay>
   <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <!-- svelte-ignore a11y_click_events_have_key_events -->
+
   <main
     class="h-screen w-screen select-none bg-cover bg-center bg-no-repeat bg-origin-content text-black dark:text-white"
     style:background-image="url({wallpaper})"
     onclick={handleClick as unknown as MouseEventHandler<HTMLElement>}>
     <nav
-      class="absolute top-0 bottom-0 left-0 flex h-screen overflow-y-hidden w-16 starting:-translate-x-16 flex-col items-center gap-2 bg-white shadow-lg delay-1000 transition-transform duration-[1500ms] dark:bg-zinc-900">
+      class="absolute top-0 z-1 bottom-0 left-0 flex h-screen overflow-y-hidden w-16 starting:-translate-x-16 flex-col items-center gap-2 bg-white shadow-lg delay-1000 transition-transform duration-[1500ms] dark:bg-zinc-900">
       <button
         popovertarget="start-menu"
         class="startmenu rounded-lg p-1 hover:bg-blue-100 active:bg-blue-200 dark:hover:bg-blue-900">
@@ -175,6 +166,7 @@
         </button>
       {/each}
       <div class="flex-1"></div>
+
       <button
         class="rounded-full p-1 text-zinc-800 hover:bg-blue-100 hover:text-black dark:text-zinc-300 dark:hover:bg-blue-900"
         onclick={() => {
@@ -200,6 +192,12 @@
         {time}
       </button>
     </nav>
+    <button
+      ondblclick={() => openWindow("filemanager")}
+      class="absolute left-20 top-4 z-10001 flex flex-col items-center gap-1 rounded-lg p-2 hover:bg-blue-200 dark:hover:bg-blue-900">
+      <img src={folderIcon} width="48" height="48" class="h-12 w-12" alt="" />
+      <span class="text-sm">My Computer</span>
+    </button>
     <StartMenu {openWindow} />
     <Calendar bind:isOpen={isCalendarOpen} />
     {#each windows as window (window.id)}
